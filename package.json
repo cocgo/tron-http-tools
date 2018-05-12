@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Flott-org/tron-http-tools/issues"
   },
-  "homepage": "https://github.com/Flott-org/tron-http-tools#readme"
+  "homepage": "https://github.com/Flott-org/tron-http-tools#readme",
+  "dependencies": {
+    "@tronprotocol/wallet-api": "0.0.35"
+  }
 }
