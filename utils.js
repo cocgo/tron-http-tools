@@ -11,7 +11,6 @@ function base64StringToString(b64){
     return Buffer.from(result.message, 'base64').toString();
 }
 
-
 module.exports = {
     hexStr2byteArray,
     base64EncodeToString,
