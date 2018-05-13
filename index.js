@@ -4,4 +4,4 @@ module.exports = {
     blocks : require("./block.js"),
     api : require("./api.js"),
     utils : require("./utils.js")
-}
+};

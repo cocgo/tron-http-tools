@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Flott-org/tron-http-tools#readme",
   "dependencies": {
-    "@tronprotocol/wallet-api": "0.0.35"
+    "@tronprotocol/wallet-api": "0.0.35",
+    "bip39": "^2.5.0"
   }
 }
