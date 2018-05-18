@@ -11,10 +11,18 @@ function base64StringToString(b64){
     return Buffer.from(result.message, 'base64').toString();
 }
 
+function uint8ToBase64(u){
+    var u8 = new Uint8Array([65, 66, 67, 68]);
+    var decoder = new TextDecoder('utf8');
+    var b64encoded = btoa(decoder.decode(u8));
+    return b64encoded;
+}
+
 module.exports = {
     hexStr2byteArray,
     base64EncodeToString,
     base64DecodeFromString,
     base64StringToString,
-    base58AddressToUint8Array
+    base58AddressToUint8Array,
+    uint8ToBase64
 }

@@ -7,6 +7,13 @@ const {TransferContract} = require("@tronprotocol/wallet-api/src/protocol/core/C
 const {Transaction, TransactionList, Transfer} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
 const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
+function getTransactionHash(transaction){
+    let raw = transaction.getRawData();
+    let rawBytes = raw.serializeBinary();
+    let hashBytes = SHA256(rawBytes);
+    return hashBytes;
+}
+
 function transactionFromBase64(transactionString){
     return Transaction.deserializeBinary(utils.base64DecodeFromString(transactionString));
 }
@@ -69,5 +76,6 @@ module.exports = {
     transactionFromBase64,
     transactionListFromBase64,
     createUnsignedTransferTransaction,
-    signTransaction
+    signTransaction,
+    getTransactionHash
 }
