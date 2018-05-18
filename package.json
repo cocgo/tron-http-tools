@@ -19,6 +19,7 @@
   "dependencies": {
     "@tronprotocol/wallet-api": "0.0.35",
     "bip39": "2.5.0",
+    "btoa": "^1.2.1",
     "text-encoding": "^0.6.4"
   }
 }

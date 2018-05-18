@@ -1,5 +1,7 @@
 const {hexStr2byteArray, base64EncodeToString, base64DecodeFromString} = require("@tronprotocol/wallet-api/src/lib/code");
 const base58 = require('@tronprotocol/wallet-api/src/lib/base58');
+const TextDecoder = require('text-encoding').TextDecoder;
+const btoa = require("btoa");
 
 function base58AddressToUint8Array(address){
     let decoded = base58.decode58(address);
@@ -12,7 +14,8 @@ function base64StringToString(b64){
 }
 
 function uint8ToBase64(u){
-    var u8 = new Uint8Array([65, 66, 67, 68]);
+    console.log(TextDecoder);
+
     var decoder = new TextDecoder('utf8');
     var b64encoded = btoa(decoder.decode(u8));
     return b64encoded;
