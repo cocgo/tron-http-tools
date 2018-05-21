@@ -13,9 +13,7 @@ function base64StringToString(b64){
     return Buffer.from(result.message, 'base64').toString();
 }
 
-function uint8ToBase64(u){
-    console.log(TextDecoder);
-
+function uint8ToBase64(u8){
     var decoder = new TextDecoder('utf8');
     var b64encoded = btoa(decoder.decode(u8));
     return b64encoded;
