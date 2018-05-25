@@ -1,5 +1,6 @@
 const utils = require('./utils');
 const bip39 =  require('bip39');
+const sha256 = require('sha256');
 
 const {Account} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
 const {privateKeyToAddress} = require("@tronprotocol/wallet-api/src/utils/crypto");
@@ -22,6 +23,16 @@ function accountFromMnemonicString(mnemonic){
 
 }
 
+function getAccountAtIndex(privateKey, index){
+    let priv = sha256(privateKey + index);
+    let pub = privateKeyToAddress(priv);
+
+    return {
+        priv : priv,
+        pub : pub
+    }
+}
+
 function generateRandomBip39(){
     let mnemonic = bip39.generateMnemonic(256);
     return accountFromMnemonicString(mnemonic);
@@ -31,5 +42,6 @@ module.exports = {
     accountFromBase64,
     privateKeyToAddress,
     generateRandomBip39,
-    accountFromMnemonicString
-}
+    accountFromMnemonicString,
+    getAccountAtIndex
+};
