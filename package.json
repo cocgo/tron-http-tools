@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Flott-org/tron-http-tools.git"
+    "url": "git+https://github.com/TronWatch/tron-http-tools.git"
   },
   "author": "tron.watch",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/Flott-org/tron-http-tools/issues"
+    "url": "https://github.com/TronWatch/tron-http-tools/issues"
   },
-  "homepage": "https://github.com/Flott-org/tron-http-tools#readme",
+  "homepage": "https://github.com/TronWatch/tron-http-tools#readme",
   "dependencies": {
     "@tronprotocol/wallet-api": "0.0.35",
     "bip39": "2.5.0",
