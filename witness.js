@@ -1,7 +1,7 @@
 const utils = require('./utils');
 
-const {WitnessList} = require("@tronprotocol/wallet-api/src/protocol/api/api_pb");
-const {Witness} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
+const {WitnessList} = require("./protocol/api/api_pb");
+const {Witness} = require("./protocol/core/Tron_pb");
 const {SHA256} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 function witnessesFromWitnessListBase64(witnesslist){

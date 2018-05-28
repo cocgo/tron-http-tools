@@ -1,6 +1,6 @@
 const utils = require('./utils');
 
-const {Block} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
+const {Block} = require("./protocol/core/Tron_pb");
 const {SHA256} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 function getBlockHash(block){

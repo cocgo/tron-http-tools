@@ -2,7 +2,7 @@ const utils = require('./utils');
 const bip39 =  require('bip39');
 const sha256 = require('sha256');
 
-const {Account} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
+const {Account} = require("./protocol/core/Tron_pb");
 const {privateKeyToAddress} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 

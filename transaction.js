@@ -3,8 +3,8 @@ const utils = require('./utils');
 const {hexStr2byteArray} = require("@tronprotocol/wallet-api/src/lib/code");
 const {longToByteArray, byteArray2hexStr} = require("@tronprotocol/wallet-api/src/utils/bytes");
 const google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
-const {TransferContract} = require("@tronprotocol/wallet-api/src/protocol/core/Contract_pb");
-const {Transaction, TransactionList, Transfer} = require("@tronprotocol/wallet-api/src/protocol/core/Tron_pb");
+const {TransferContract} = require("./protocol/core/Contract_pb");
+const {Transaction, TransactionList, Transfer} = require("./protocol/core/Tron_pb");
 const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 function getTransactionHash(transaction){
