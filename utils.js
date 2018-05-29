@@ -14,9 +14,12 @@ function base64StringToString(b64){
 }
 
 function uint8ToBase64(u8){
-    var decoder = new TextDecoder('utf8');
-    var b64encoded = btoa(decoder.decode(u8));
-    return b64encoded;
+    let decoder = new TextDecoder('utf8');
+    return btoa(decoder.decode(u8));
+}
+
+function stringToUint8Array(str) {
+    return Uint8Array.from(base64DecodeFromString(btoa(str)));
 }
 
 module.exports = {
@@ -25,5 +28,6 @@ module.exports = {
     base64DecodeFromString,
     base64StringToString,
     base58AddressToUint8Array,
+    stringToUint8Array,
     uint8ToBase64
 }

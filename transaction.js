@@ -1,3 +1,4 @@
+const assert = require('assert');
 const utils = require('./utils');
 
 const {hexStr2byteArray} = require("@tronprotocol/wallet-api/src/lib/code");
@@ -5,14 +6,13 @@ const {longToByteArray, byteArray2hexStr} = require("@tronprotocol/wallet-api/sr
 const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 const google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
-const {TransferContract} = require("./protocol/core/Contract_pb");
+const {UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
 const {Transaction, TransactionList, Transfer} = require("./protocol/core/Tron_pb");
 
 function getTransactionHash(transaction){
     let raw = transaction.getRawData();
     let rawBytes = raw.serializeBinary();
-    let hashBytes = SHA256(rawBytes);
-    return hashBytes;
+    return SHA256(rawBytes);
 }
 
 function transactionFromBase64(transactionString){
@@ -72,11 +72,15 @@ function createTransaction(message, contractType, typeName, nowBlock) {
     return transaction;
 }
 
-function createUnsignedTransferTransaction(sender, recipient, amount, nowBlock){
+function createUnsignedTransferTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.sender);
+    assert.notEqual(undefined, props.recipient);
+    assert.notEqual(undefined, props.amount);
+
     let contract = new TransferContract();
-    contract.setOwnerAddress(Uint8Array.from(decode58Check(sender)));
-    contract.setToAddress(Uint8Array.from(decode58Check(recipient)));
-    contract.setAmount(amount);
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.sender)));
+    contract.setToAddress(Uint8Array.from(decode58Check(props.recipient)));
+    contract.setAmount(props.amount);
 
     return createTransaction(
         contract,
@@ -85,11 +89,82 @@ function createUnsignedTransferTransaction(sender, recipient, amount, nowBlock){
         nowBlock);
 }
 
+function createUnsignedAssetIssueTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.sender);
+    assert.notEqual(undefined, props.assetName);
+    assert.notEqual(undefined, props.assetAbbr);
+    assert.notEqual(undefined, props.totalSupply);
+    assert.notEqual(undefined, props.num);
+    assert.notEqual(undefined, props.trxNum);
+    assert.notEqual(undefined, props.endTime);
+    assert.notEqual(undefined, props.startTime);
+    assert.notEqual(undefined, props.description);
+    assert.notEqual(undefined, props.url);
+
+
+    let contract = new AssetIssueContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.sender)));
+    contract.setName(utils.stringToUint8Array(props.assetName));
+    contract.setAbbr(utils.stringToUint8Array(props.assetAbbr));
+    contract.setTotalSupply(props.totalSupply);
+    contract.setNum(props.num);
+    contract.setTrxNum(props.trxNum);
+    contract.setEndTime(props.endTime);
+    contract.setStartTime(props.startTime);
+    contract.setDescription(utils.stringToUint8Array(props.description));
+    contract.setUrl(utils.stringToUint8Array(props.url));
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.ASSETISSUECONTRACT,
+        "AssetIssueContract",
+        nowBlock
+    );
+}
+
+function createUnsignedFreezeBalanceTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.ownerAddress);
+    assert.notEqual(undefined, props.amount);
+    assert.notEqual(undefined, props.duration);
+    props.duration = 3000000000000;
+
+    console.log(props);
+
+    console.log('here: ' + props.ownerAddress);
+    let contract = new FreezeBalanceContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
+    contract.setFrozenBalance(props.amount);
+    contract.setFrozenDuration(props.duration);
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.FREEZEBALANCECONTRACT,
+        "FreezeBalanceContract",
+        nowBlock
+    );
+}
+
+function createUnsignedUnfreezeBalanceTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.ownerAddress);
+
+    let contract = new UnfreezeBalanceContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.FREEZEBALANCECONTRACT,
+        "UnfreezeBalanceContract",
+        nowBlock
+    );
+}
 
 module.exports = {
     transactionFromBase64,
     transactionListFromBase64,
     createUnsignedTransferTransaction,
+    createUnsignedAssetIssueTransaction,
+    createUnsignedFreezeBalanceTransaction,
+    createUnsignedUnfreezeBalanceTransaction,
     signTransaction,
     getTransactionHash
 }
