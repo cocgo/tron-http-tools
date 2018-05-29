@@ -19,7 +19,7 @@
   "dependencies": {
     "@tronprotocol/wallet-api": "0.0.35",
     "assert": "^1.4.1",
-    "bip39": "2.5.0",
+    "bip39": "2.3.0",
     "btoa": "^1.2.1",
     "sha256": "^0.2.0",
     "text-encoding": "^0.6.4"
