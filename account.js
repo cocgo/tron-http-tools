@@ -20,7 +20,15 @@ function accountFromMnemonicString(mnemonic){
         privateKey,
         address
     };
+}
 
+function accountFromPrivateKey(privateKey){
+    let address = privateKeyToAddress(privateKey);
+
+    return {
+        privateKey,
+        address
+    };
 }
 
 function getAccountAtIndex(privateKey, index){
@@ -43,5 +51,6 @@ module.exports = {
     privateKeyToAddress,
     generateRandomBip39,
     accountFromMnemonicString,
+    accountFromPrivateKey,
     getAccountAtIndex
 };
