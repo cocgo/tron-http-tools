@@ -6,7 +6,7 @@ const {longToByteArray, byteArray2hexStr} = require("@tronprotocol/wallet-api/sr
 const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 const google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
-const {UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
+const {TransferAssetContract, UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
 const {Transaction, TransactionList, Transfer} = require("./protocol/core/Tron_pb");
 
 function getTransactionHash(transaction){
@@ -89,6 +89,25 @@ function createUnsignedTransferTransaction(props, nowBlock){
         nowBlock);
 }
 
+function createUnsignedTransferAssetTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.sender);
+    assert.notEqual(undefined, props.recipient);
+    assert.notEqual(undefined, props.amount);
+    assert.notEqual(undefined, props.assetName);
+
+    let contract = new TransferAssetContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.sender)));
+    contract.setToAddress(Uint8Array.from(decode58Check(props.recipient)));
+    contract.setAmount(props.amount);
+    contract.setAssetName(utils.stringToUint8Array(props.assetName));
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.TRANSFERASSETCONTRACT,
+        "TransferAssetContract",
+        nowBlock);
+}
+
 function createUnsignedAssetIssueTransaction(props, nowBlock){
     assert.notEqual(undefined, props.sender);
     assert.notEqual(undefined, props.assetName);
@@ -152,7 +171,7 @@ function createUnsignedUnfreezeBalanceTransaction(props, nowBlock){
 
     return createTransaction(
         contract,
-        Transaction.Contract.ContractType.FREEZEBALANCECONTRACT,
+        Transaction.Contract.ContractType.UNFREEZEBALANCECONTRACT,
         "UnfreezeBalanceContract",
         nowBlock
     );
@@ -165,6 +184,7 @@ module.exports = {
     createUnsignedAssetIssueTransaction,
     createUnsignedFreezeBalanceTransaction,
     createUnsignedUnfreezeBalanceTransaction,
+    createUnsignedTransferAssetTransaction,
     signTransaction,
     getTransactionHash
 }
