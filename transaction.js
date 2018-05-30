@@ -6,7 +6,7 @@ const {longToByteArray, byteArray2hexStr} = require("@tronprotocol/wallet-api/sr
 const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
 
 const google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
-const {TransferAssetContract, UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
+const {ParticipateAssetIssueContract, VoteWitnessContract, WitnessUpdateContract, WitnessCreateContract, TransferAssetContract, UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
 const {Transaction, TransactionList, Transfer} = require("./protocol/core/Tron_pb");
 
 function getTransactionHash(transaction){
@@ -89,6 +89,26 @@ function createUnsignedTransferTransaction(props, nowBlock){
         nowBlock);
 }
 
+function createUnsignedParticipateAssetIssueTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.sender);
+    assert.notEqual(undefined, props.recipient);
+    assert.notEqual(undefined, props.assetName);
+    assert.notEqual(undefined, props.amount);
+
+    let contract = new ParticipateAssetIssueContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.sender)));
+    contract.setToAddress(Uint8Array.from(decode58Check(props.recipient)));
+    contract.setAssetName(utils.stringToUint8Array(props.assetName));
+    contract.setAmount(props.amount);
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.PARTICIPATEASSETISSUECONTRACT,
+        "ParticipateAssetIssueContract",
+        nowBlock);
+
+}
+
 function createUnsignedTransferAssetTransaction(props, nowBlock){
     assert.notEqual(undefined, props.sender);
     assert.notEqual(undefined, props.recipient);
@@ -119,7 +139,6 @@ function createUnsignedAssetIssueTransaction(props, nowBlock){
     assert.notEqual(undefined, props.startTime);
     assert.notEqual(undefined, props.description);
     assert.notEqual(undefined, props.url);
-
 
     let contract = new AssetIssueContract();
     contract.setOwnerAddress(Uint8Array.from(decode58Check(props.sender)));
@@ -177,6 +196,62 @@ function createUnsignedUnfreezeBalanceTransaction(props, nowBlock){
     );
 }
 
+function createUnsignedWitnessCreateTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.ownerAddress);
+    assert.notEqual(undefined, props.url);
+
+    let contract = new WitnessCreateContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
+    contract.setUrl(utils.stringToUint8Array(props.url));
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.WITNESSCREATECONTRACT,
+        "WitnessCreateContract",
+        nowBlock
+    );
+
+}
+
+function createUnsignedVoteWitnessTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.ownerAddress);
+    assert.notEqual(undefined, props.votes);
+
+    let contract = new VoteWitnessContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
+
+    for(let i = 0;i<props.votes.length;i++){
+        let vote = new VoteWitnessContract.Vote();
+        vote.setVoteAddress(Uint8Array.from(decode58Check(props.votes[i].address)));
+        vote.setVoteCount(props.votes[i].count);
+        contract.addVotes(vote);
+    }
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.VOTEWITNESSCONTRACT,
+        "VoteWitnessContract",
+        nowBlock
+    );
+}
+
+function createUnsignedWitnessUpdateTransaction(props, nowBlock){
+    assert.notEqual(undefined, props.ownerAddress);
+    assert.notEqual(undefined, props.url);
+
+    let contract = new WitnessUpdateContract();
+    contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
+    contract.setUrl(utils.stringToUint8Array(props.url));
+
+    return createTransaction(
+        contract,
+        Transaction.Contract.ContractType.WITNESSUPDATECONTRACT,
+        "WitnessUpdateContract",
+        nowBlock
+    );
+
+}
+
 module.exports = {
     transactionFromBase64,
     transactionListFromBase64,
@@ -185,6 +260,10 @@ module.exports = {
     createUnsignedFreezeBalanceTransaction,
     createUnsignedUnfreezeBalanceTransaction,
     createUnsignedTransferAssetTransaction,
+    createUnsignedVoteWitnessTransaction,
+    createUnsignedWitnessCreateTransaction,
+    createUnsignedWitnessUpdateTransaction,
+    createUnsignedParticipateAssetIssueTransaction,
     signTransaction,
     getTransactionHash
 }
