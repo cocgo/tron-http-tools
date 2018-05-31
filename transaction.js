@@ -164,10 +164,6 @@ function createUnsignedFreezeBalanceTransaction(props, nowBlock){
     assert.notEqual(undefined, props.ownerAddress);
     assert.notEqual(undefined, props.amount);
     assert.notEqual(undefined, props.duration);
-    props.duration = 3000000000000;
-
-    console.log(props);
-
     console.log('here: ' + props.ownerAddress);
     let contract = new FreezeBalanceContract();
     contract.setOwnerAddress(Uint8Array.from(decode58Check(props.ownerAddress)));
