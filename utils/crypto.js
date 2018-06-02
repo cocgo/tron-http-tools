@@ -252,4 +252,5 @@ module.exports = {
   pkToAddress,
   decode58Check,
   signBytes,
+  SHA256
 };
