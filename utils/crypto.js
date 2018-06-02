@@ -16,7 +16,6 @@ const { byte2hexStr, byteArray2hexStr } = require("./bytes");
  * @param transaction: a Transaction object unSigned
  */
 function signTransaction(priKeyBytes, transaction) {
-
   if (typeof priKeyBytes === 'string') {
     priKeyBytes = hexStr2byteArray(priKeyBytes);
   }
@@ -30,11 +29,7 @@ function signTransaction(priKeyBytes, transaction) {
   for (let i = 0; i < count; i++) {
     transaction.addSignature(uint8Array);
   }
-
-  return {
-    transaction,
-    hex: byteArray2hexStr(transaction.serializeBinary()),
-  };
+  return transaction;
 }
 
 function arrayToBase64String(a) {
@@ -48,9 +43,7 @@ function signBytes(privateKey, contents) {
   }
 
   let hashBytes = SHA256(contents);
-  let signBytes = ECKeySign(hashBytes, privateKey);
-
-  return signBytes;
+  return ECKeySign(hashBytes, privateKey);
 }
 
 //return bytes of rowdata, use to sign.
@@ -103,7 +96,7 @@ function getBase58CheckAddress(addressBytes) {
 
 function decode58Check(addressStr) {
 
-  var decodeCheck = decode58(addressStr);
+  let decodeCheck = decode58(addressStr);
   if (decodeCheck.length <= 4) {
     console.error("ERROR CHECK");
     return null;

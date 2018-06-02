@@ -68,11 +68,21 @@ function byteArray2hexStr(byteArray) {
   return str;
 }
 
+function longToByteArray(/*long*/long) {
+  let byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
+  for (let index = 0; index < byteArray.length; index ++ ) {
+    let byte = long & 0xff;
+    byteArray [ index ] = byte;
+    long = (long - byte) / 256 ;
+  }
+  return byteArray;
+}
 
 module.exports = {
   byteArray2hexStr,
   hextoString,
   base64DecodeFromString,
   bytesToString,
-  byte2hexStr
+  byte2hexStr,
+  longToByteArray
 };
