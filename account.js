@@ -13,7 +13,7 @@ function accountFromBase64(accountString){
 function accountFromMnemonicString(mnemonic){
     let words = mnemonic.split(" ");
     let privateKey = bip39.mnemonicToSeedHex(mnemonic);
-    let address = privateKeyToAddress(privateKey);
+    let address = pkToAddress(privateKey);
 
     return {
         words,
@@ -23,7 +23,7 @@ function accountFromMnemonicString(mnemonic){
 }
 
 function accountFromPrivateKey(privateKey){
-    let address = privateKeyToAddress(privateKey);
+    let address = pkToAddress(privateKey);
 
     return {
         privateKey,
@@ -33,7 +33,7 @@ function accountFromPrivateKey(privateKey){
 
 function getAccountAtIndex(privateKey, index){
     let priv = sha256(privateKey + index);
-    let pub = privateKeyToAddress(priv);
+    let pub = pkToAddress(priv);
 
     return {
         priv : priv,
