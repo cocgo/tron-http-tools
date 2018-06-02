@@ -8,4 +8,4 @@ function returnFromBase64(ret){
 
 module.exports = {
     returnFromBase64
-}
+};

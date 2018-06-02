@@ -2,7 +2,7 @@ const utils = require('./utils');
 
 const {WitnessList} = require("./protocol/api/api_pb");
 const {Witness} = require("./protocol/core/Tron_pb");
-const {getBase58CheckAddress,SHA256} = require("@tronprotocol/wallet-api/src/utils/crypto");
+const {getBase58CheckAddress,SHA256} = require("./utils/crypto");
 
 function witnessesFromWitnessListBase64(witnesslist){
     let witnesses = WitnessList.deserializeBinary(utils.base64DecodeFromString(witnesslist)).getWitnessesList();
@@ -18,4 +18,4 @@ function witnessesFromWitnessListBase64(witnesslist){
 
 module.exports = {
     witnessesFromWitnessListBase64
-}
+};

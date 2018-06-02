@@ -1,9 +1,9 @@
 const assert = require('assert');
 const utils = require('./utils');
 
-const {hexStr2byteArray} = require("@tronprotocol/wallet-api/src/lib/code");
-const {longToByteArray, byteArray2hexStr} = require("@tronprotocol/wallet-api/src/utils/bytes");
-const {decode58Check, SHA256, signTransaction} = require("@tronprotocol/wallet-api/src/utils/crypto");
+const {hexStr2byteArray} = require("./lib/code");
+const {longToByteArray, byteArray2hexStr} = require("./utils/bytes");
+const {decode58Check, SHA256, signTransaction} = require("./utils/crypto");
 
 const google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
 const {ParticipateAssetIssueContract, VoteWitnessContract, WitnessUpdateContract, WitnessCreateContract, TransferAssetContract, UnfreezeBalanceContract, FreezeBalanceContract, TransferContract, AssetIssueContract} = require("./protocol/core/Contract_pb");
@@ -262,4 +262,4 @@ module.exports = {
     createUnsignedParticipateAssetIssueTransaction,
     signTransaction,
     getTransactionHash
-}
+};

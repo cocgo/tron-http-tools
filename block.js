@@ -1,13 +1,12 @@
 const utils = require('./utils');
 
 const {Block} = require("./protocol/core/Tron_pb");
-const {SHA256} = require("@tronprotocol/wallet-api/src/utils/crypto");
+const {SHA256} = require("./utils/crypto");
 
 function getBlockHash(block){
     let raw = block.getBlockHeader().getRawData();
     let rawBytes = raw.serializeBinary();
-    let hashBytes = SHA256(rawBytes);
-    return hashBytes;
+    return SHA256(rawBytes);
 }
 function blockFromBase64(blockString){
     return Block.deserializeBinary(utils.base64DecodeFromString(blockString));
@@ -16,4 +15,4 @@ function blockFromBase64(blockString){
 module.exports = {
     blockFromBase64,
     getBlockHash
-}
+};

@@ -1,5 +1,5 @@
-const {hexStr2byteArray, base64EncodeToString, base64DecodeFromString} = require("@tronprotocol/wallet-api/src/lib/code");
-const base58 = require('@tronprotocol/wallet-api/src/lib/base58');
+const {hexStr2byteArray, base64EncodeToString, base64DecodeFromString} = require("./lib/code");
+const base58 = require('./lib/base58');
 const TextDecoder = require('text-encoding').TextDecoder;
 const btoa = require("btoa");
 
@@ -30,4 +30,4 @@ module.exports = {
     base58AddressToUint8Array,
     stringToUint8Array,
     uint8ToBase64
-}
+};

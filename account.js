@@ -3,7 +3,7 @@ const bip39 =  require('bip39');
 const sha256 = require('sha256');
 
 const {Account} = require("./protocol/core/Tron_pb");
-const {privateKeyToAddress} = require("@tronprotocol/wallet-api/src/utils/crypto");
+const {privateKeyToAddress} = require("./utils/crypto");
 
 
 function accountFromBase64(accountString){
