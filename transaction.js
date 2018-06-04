@@ -151,14 +151,13 @@ function createUnsignedAssetIssueTransaction(props, nowBlock){
     contract.setStartTime(props.startTime);
     contract.setDescription(utils.stringToUint8Array(props.description));
     contract.setUrl(utils.stringToUint8Array(props.url));
-    if(props.frozenSupply !== undefined && props.frozenSupply.days > 0){
+
+    if(props.frozenSupply !== undefined && props.frozenDuration !== undefined && props.frozenSupply > 0 && props.frozenDuration > 0){
       let frozenSupply = new AssetIssueContract.FrozenSupply();
-      frozenSupply.setFrozenAmount(props.frozenSupply.amount);
-      frozenSupply.setFrozenDays(props.frozenSupply.days);
+      frozenSupply.setFrozenAmount(props.frozenSupply);
+      frozenSupply.setFrozenDays(props.frozenDuration);
       contract.addFrozenSupply(frozenSupply);
     }
-    console.log('working');
-
     return createTransaction(
         contract,
         Transaction.Contract.ContractType.ASSETISSUECONTRACT,
