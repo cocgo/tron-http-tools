@@ -47,7 +47,7 @@ async function addRef(transaction, nowBlock) {
     let rawData = transaction.getRawData();
     rawData.setRefBlockHash(Uint8Array.from(generateBlockId.slice(8, 16)));
     rawData.setRefBlockBytes(Uint8Array.from(numBytes.slice(6, 8)));
-    rawData.setExpiration(Date.now() + (60 * 24 * 1000));
+    rawData.setExpiration((Date.now() + (60 * 60 * 24 * 1000)*1000));
 
     transaction.setRawData(rawData);
     return transaction;
@@ -250,7 +250,6 @@ function createUnsignedWitnessUpdateTransaction(props, nowBlock){
         "WitnessUpdateContract",
         nowBlock
     );
-
 }
 
 module.exports = {
