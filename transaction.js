@@ -47,7 +47,7 @@ async function addRef(transaction, nowBlock) {
     let rawData = transaction.getRawData();
     rawData.setRefBlockHash(Uint8Array.from(generateBlockId.slice(8, 16)));
     rawData.setRefBlockBytes(Uint8Array.from(numBytes.slice(6, 8)));
-    rawData.setExpiration((Date.now() + (60 * 60 * 24 * 1000)*1000));
+    rawData.setExpiration(nowBlock.getBlockHeader().getRawData().getTimestamp() + (60 * 24 * 1000));
 
     transaction.setRawData(rawData);
     return transaction;
@@ -63,7 +63,6 @@ function createTransaction(message, contractType, typeName, nowBlock) {
 
     let raw = new Transaction.raw();
     raw.addContract(contract);
-    raw.setTimestamp(new Date().getTime() * 1000000);
 
     let transaction = new Transaction();
     transaction.setRawData(raw);
