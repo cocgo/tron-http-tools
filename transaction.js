@@ -48,7 +48,8 @@ async function addRef(transaction, nowBlock) {
     rawData.setRefBlockHash(Uint8Array.from(generateBlockId.slice(8, 16)));
     rawData.setRefBlockBytes(Uint8Array.from(numBytes.slice(6, 8)));
     rawData.setExpiration(nowBlock.getBlockHeader().getRawData().getTimestamp() + (60 * 24 * 1000));
-
+    rawData.setTimestamp(new Date().getTime());
+    
     transaction.setRawData(rawData);
     return transaction;
 }
